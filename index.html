@@ -1,0 +1,1716 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>我的背包</title>
+  <meta name="theme-color" content="#7cb8ff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="我的背包" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <style>
+    :root {
+      --bg-a: #eaf6ff;
+      --bg-b: #d8edff;
+      --card: rgba(255, 255, 255, 0.92);
+      --line: rgba(92, 156, 226, 0.25);
+      --text: #1d4f83;
+      --sub: #5d81ab;
+      --primary: #63a9f8;
+      --primary-deep: #4a96ef;
+      --used: #eef2f6;
+      --used-line: #d5dde7;
+      --danger: #de7080;
+      --radius: 20px;
+      --shadow: 0 14px 32px rgba(89, 152, 224, 0.2);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(164, 216, 255, 0.75), transparent 36%),
+        radial-gradient(circle at 88% 10%, rgba(178, 230, 255, 0.62), transparent 40%),
+        linear-gradient(150deg, var(--bg-a), var(--bg-b));
+      padding: 18px 14px 30px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 660px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 16px;
+      background:
+        radial-gradient(circle at 92% 20%, rgba(122, 189, 255, 0.2), transparent 35%),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(235, 248, 255, 0.95));
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 84px;
+      height: 84px;
+      background: rgba(142, 204, 255, 0.25);
+      top: -32px;
+      right: -18px;
+    }
+
+    .hero::after {
+      width: 54px;
+      height: 54px;
+      background: rgba(123, 191, 255, 0.22);
+      bottom: -20px;
+      left: 18px;
+    }
+
+    .hero-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(140deg, #77bbff, #4d98f0);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 18px rgba(73, 149, 239, 0.32);
+      flex: 0 0 auto;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1;
+      letter-spacing: 1px;
+      color: #2b67a0;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--sub);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .icon-strip {
+      margin-top: 10px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mini-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      border: 1px solid rgba(89, 153, 224, 0.32);
+      background: rgba(255, 255, 255, 0.95);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      color: #4f8ecf;
+      font-weight: 700;
+    }
+
+    .stats-grid {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.96);
+      padding: 10px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .stat-top {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #4c7dac;
+      font-size: 12px;
+    }
+
+    .stat-num {
+      font-size: 22px;
+      font-weight: 700;
+      color: #2865a2;
+      line-height: 1;
+    }
+
+    .report {
+      border-radius: 16px;
+      border: 1px solid rgba(98, 163, 231, 0.3);
+      background: linear-gradient(155deg, rgba(255,255,255,0.96), rgba(232, 246, 255, 0.95));
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .report-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .report-title {
+      margin: 0;
+      color: #2d679f;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .report-month {
+      font-size: 12px;
+      color: #5b80a9;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(113, 169, 228, 0.35);
+      border-radius: 999px;
+      padding: 4px 9px;
+    }
+
+    .report-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .report-box {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(113, 169, 228, 0.26);
+      border-radius: 12px;
+      padding: 8px;
+      display: grid;
+      gap: 3px;
+    }
+
+    .report-k {
+      color: #5f84ad;
+      font-size: 12px;
+    }
+
+    .report-v {
+      color: #2a659f;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .trend-wrap {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(113, 169, 228, 0.26);
+      border-radius: 12px;
+      padding: 8px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .trend-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #5d83ac;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .trend-value {
+      font-weight: 700;
+      color: #2d6ca8;
+    }
+
+    .trend-value.up {
+      color: #2f8f68;
+    }
+
+    .trend-value.down {
+      color: #cb6e79;
+    }
+
+    .trend-bars {
+      height: 36px;
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .trend-tools {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid rgba(113, 169, 228, 0.35);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 2px;
+    }
+
+    .trend-btn {
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: #5d84ad;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 9px;
+      line-height: 1.1;
+    }
+
+    .trend-btn.active {
+      background: linear-gradient(135deg, #7bbdff, #55a3f3);
+      color: #fff;
+      box-shadow: 0 5px 10px rgba(81, 153, 226, 0.22);
+    }
+
+    .trend-bar {
+      flex: 1;
+      min-width: 6px;
+      border-radius: 6px 6px 3px 3px;
+      background: linear-gradient(180deg, rgba(109, 184, 255, 0.95), rgba(121, 200, 255, 0.8));
+      height: 8px;
+    }
+
+    .ico {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(140deg, #73b8ff, #4a95ef);
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .ico::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #dff2ff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 110px;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .setting-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 2px 0 10px;
+    }
+
+    .switch {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      padding: 6px 9px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #4d79a8;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .switch input {
+      display: none;
+    }
+
+    .switch-track {
+      width: 34px;
+      height: 20px;
+      border-radius: 999px;
+      background: #cad9ea;
+      position: relative;
+      transition: 180ms ease;
+      flex: 0 0 auto;
+    }
+
+    .switch-track::after {
+      content: "";
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #fff;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      box-shadow: 0 2px 4px rgba(37, 79, 125, 0.22);
+      transition: 180ms ease;
+    }
+
+    .switch input:checked + .switch-track {
+      background: linear-gradient(135deg, #72b8ff, #4d98f0);
+    }
+
+    .switch input:checked + .switch-track::after {
+      left: 17px;
+    }
+
+    input,
+    textarea,
+    button {
+      font: inherit;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      padding: 10px;
+      color: var(--text);
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: rgba(74, 150, 239, 0.65);
+      box-shadow: 0 0 0 3px rgba(111, 175, 252, 0.22);
+    }
+
+    textarea {
+      min-height: 72px;
+      resize: vertical;
+    }
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 10px 8px;
+      color: #356396;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button.primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-deep));
+      color: #fff;
+      border-color: rgba(76, 145, 223, 0.55);
+    }
+
+    button.danger {
+      color: var(--danger);
+      border-color: rgba(223, 111, 127, 0.35);
+      background: #fff5f7;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .tab.active {
+      background: rgba(108, 177, 255, 0.2);
+      border-color: rgba(74, 150, 239, 0.45);
+      color: #255f98;
+    }
+
+    .list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--accent, #75baff);
+      border-radius: 14px;
+      background: #fff;
+      padding: 12px 12px 10px;
+      display: grid;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      right: -18px;
+      top: -18px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: rgba(140, 203, 255, 0.15);
+      pointer-events: none;
+    }
+
+    .card.rarity-common {
+      --accent: #8fb0d1;
+      border-color: #cad6e4;
+    }
+
+    .card.rarity-rare {
+      --accent: #4f9bf2;
+      border-color: rgba(79, 155, 242, 0.45);
+      box-shadow: 0 8px 18px rgba(90, 164, 244, 0.18);
+    }
+
+    .card.rarity-epic {
+      --accent: #8f7cf1;
+      border-color: rgba(146, 126, 243, 0.55);
+      box-shadow: 0 10px 20px rgba(141, 124, 240, 0.22);
+    }
+
+    .card.rarity-legendary {
+      --accent: #f4b652;
+      border-color: rgba(244, 183, 83, 0.58);
+      box-shadow: 0 12px 22px rgba(244, 185, 85, 0.24);
+    }
+
+    .card.rarity-legendary::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(120deg, rgba(255, 218, 160, 0.08) 0%, rgba(255, 236, 192, 0.44) 45%, rgba(255, 208, 129, 0.08) 100%);
+      background-repeat: no-repeat;
+      background-size: 220px 100%;
+      background-position: -170px 0;
+      pointer-events: none;
+    }
+
+    .card.enter.rarity-rare {
+      animation: rarity-enter-rare 500ms cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .card.enter.rarity-epic {
+      animation: rarity-enter-epic 560ms cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .card.enter.rarity-legendary {
+      animation: rarity-enter-legendary 640ms cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .card.enter.rarity-legendary::after {
+      animation: legendary-sheen 1200ms ease-out both;
+    }
+
+    @keyframes rarity-enter-rare {
+      0% { opacity: 0; transform: translateY(8px) scale(0.98); }
+      60% { opacity: 1; transform: translateY(-2px) scale(1.01); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes rarity-enter-epic {
+      0% { opacity: 0; transform: translateY(10px) scale(0.96); filter: saturate(0.8); }
+      60% { opacity: 1; transform: translateY(-3px) scale(1.02); filter: saturate(1.12); }
+      100% { opacity: 1; transform: translateY(0) scale(1); filter: saturate(1); }
+    }
+
+    @keyframes rarity-enter-legendary {
+      0% { opacity: 0; transform: translateY(12px) scale(0.94); }
+      50% { opacity: 1; transform: translateY(-4px) scale(1.03); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes legendary-sheen {
+      0% { background-position: -170px 0; opacity: 0.15; }
+      20% { opacity: 0.42; }
+      100% { background-position: 200px 0; opacity: 0.12; }
+    }
+
+    .ticket-notch {
+      position: absolute;
+      top: 42px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #d8edff;
+      border: 1px solid rgba(140, 183, 220, 0.35);
+      pointer-events: none;
+    }
+
+    .ticket-notch.left {
+      left: -9px;
+    }
+
+    .ticket-notch.right {
+      right: -9px;
+    }
+
+    .ticket-perf {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 49px;
+      border-top: 1px dashed rgba(128, 174, 220, 0.65);
+      pointer-events: none;
+    }
+
+    .ticket-corner {
+      position: absolute;
+      right: -24px;
+      top: 9px;
+      transform: rotate(33deg);
+      background: linear-gradient(145deg, #93cbff, #5ca8f6);
+      color: #f8fcff;
+      font-size: 10px;
+      letter-spacing: 1px;
+      font-weight: 700;
+      padding: 3px 24px;
+      box-shadow: 0 7px 12px rgba(70, 142, 220, 0.25);
+      pointer-events: none;
+    }
+
+    .card.rarity-common .ticket-corner {
+      background: linear-gradient(145deg, #adc0d6, #8ea8c5);
+    }
+
+    .card.rarity-rare .ticket-corner {
+      background: linear-gradient(145deg, #72b7ff, #4b9cf3);
+    }
+
+    .card.rarity-epic .ticket-corner {
+      background: linear-gradient(145deg, #a092ff, #7f73e9);
+    }
+
+    .card.rarity-legendary .ticket-corner {
+      background: linear-gradient(145deg, #ffcf72, #f2ad3c);
+      color: #fffaf1;
+    }
+
+    .card.used {
+      background: var(--used);
+      border-color: var(--used-line);
+      border-left-color: var(--accent, #9bb6d1);
+      color: #69798d;
+    }
+
+    .line {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .ticket-name {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+    }
+
+    .ticket-name .icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(140deg, #6fb5ff, #4c94ed);
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .ticket-name .icon::after {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #dff2ff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .ticket-stamp {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      background: var(--stamp-bg, linear-gradient(145deg, #7abfff, #4d98f0));
+      box-shadow: 0 8px 15px rgba(78, 145, 220, 0.25);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
+
+    .ticket-stamp svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+      fill: currentColor;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ticket-stamp::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(--stamp-pattern, linear-gradient(135deg, rgba(255,255,255,0.3), transparent 60%));
+      opacity: 0.55;
+      z-index: -1;
+    }
+
+    .card.used .ticket-stamp {
+      filter: grayscale(0.55);
+      box-shadow: none;
+    }
+
+    .pill-used {
+      display: inline-block;
+      border-radius: 999px;
+      border: 1px solid #b8c1cd;
+      background: #f5f7fa;
+      color: #7b8797;
+      font-size: 12px;
+      padding: 5px 10px;
+    }
+
+    .meta {
+      font-size: 12px;
+      color: var(--sub);
+      display: grid;
+      gap: 4px;
+    }
+
+    .card.used .meta {
+      color: #8090a3;
+    }
+
+    .remark {
+      font-size: 13px;
+      line-height: 1.4;
+      color: #3f6f9f;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .card.used .remark {
+      color: #728399;
+    }
+
+    .empty {
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+      color: var(--sub);
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .fx-layer {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 20;
+    }
+
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      opacity: 0;
+      animation: particle-fall 850ms ease-out forwards;
+    }
+
+    .particle.star {
+      width: 10px;
+      height: 10px;
+      clip-path: polygon(50% 0%, 61% 36%, 98% 36%, 69% 57%, 79% 94%, 50% 72%, 21% 94%, 31% 57%, 2% 36%, 39% 36%);
+      border-radius: 0;
+      box-shadow: 0 0 6px rgba(109, 180, 255, 0.45);
+    }
+
+    .particle.bubble {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.5);
+    }
+
+    .fly-ticket {
+      position: fixed;
+      width: 52px;
+      height: 30px;
+      border-radius: 9px;
+      border: 1px solid rgba(101, 173, 248, 0.55);
+      background:
+        linear-gradient(165deg, rgba(255,255,255,0.95), rgba(222, 243, 255, 0.96));
+      box-shadow: 0 8px 15px rgba(58, 124, 196, 0.2);
+      pointer-events: none;
+      z-index: 28;
+      animation: fly-ticket 620ms cubic-bezier(.22,.8,.22,1) forwards;
+    }
+
+    .fly-ticket::before {
+      content: "";
+      position: absolute;
+      left: 9px;
+      right: 9px;
+      top: 14px;
+      border-top: 1px dashed rgba(106, 168, 231, 0.8);
+    }
+
+    @keyframes fly-ticket {
+      0% {
+        transform: translate3d(0, 0, 0) scale(0.9) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.98;
+      }
+      100% {
+        transform: translate3d(var(--tx), var(--ty), 0) scale(0.5) rotate(var(--rot));
+        opacity: 0;
+      }
+    }
+
+    @keyframes particle-fall {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 0.95;
+      }
+      100% {
+        transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--rot)) scale(0.72);
+        opacity: 0;
+      }
+    }
+
+    .password-mask {
+      position: fixed;
+      inset: 0;
+      background: rgba(14, 39, 66, 0.44);
+      display: grid;
+      place-items: center;
+      z-index: 50;
+      padding: 16px;
+    }
+
+    .password-mask[hidden] {
+      display: none;
+    }
+
+    .password-dialog {
+      width: min(380px, 100%);
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid rgba(89, 153, 224, 0.28);
+      box-shadow: 0 18px 40px rgba(20, 69, 115, 0.28);
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .password-title {
+      margin: 0;
+      color: #2f689e;
+      font-size: 17px;
+    }
+
+    .password-help {
+      margin: 0;
+      color: #5d81ab;
+      font-size: 13px;
+    }
+
+    .password-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 560px) {
+      .title {
+        font-size: 26px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .report-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="fxLayer" class="fx-layer"></div>
+  <main class="app">
+    <section class="panel hero">
+      <div class="hero-main">
+        <div class="logo-wrap" aria-hidden="true">
+          <svg viewBox="0 0 64 64" width="34" height="34" role="img">
+            <path d="M18 25h28a6 6 0 0 1 6 6v20a7 7 0 0 1-7 7H19a7 7 0 0 1-7-7V31a6 6 0 0 1 6-6z" fill="#f6fbff" />
+            <path d="M24 24v-3a8 8 0 1 1 16 0v3" fill="none" stroke="#dff2ff" stroke-width="5" stroke-linecap="round" />
+            <path d="M24 24v-3a8 8 0 1 1 16 0v3" fill="none" stroke="#2f72b2" stroke-width="3" stroke-linecap="round" />
+            <path d="M12 34h40" stroke="#c0dfff" stroke-width="4" />
+            <circle cx="32" cy="42" r="5" fill="#5aa4f6" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="title">我的背包</h1>
+          <p class="subtitle">今天也把遥遥的小心意装进背包里吧</p>
+        </div>
+      </div>
+
+      <div class="icon-strip" aria-hidden="true">
+        <span class="mini-icon">券</span>
+        <span class="mini-icon">爱</span>
+        <span class="mini-icon">甜</span>
+        <span class="mini-icon">礼</span>
+        <span class="mini-icon">贴</span>
+        <span class="mini-icon">抱</span>
+        <span class="mini-icon">暖</span>
+        <span class="mini-icon">心</span>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <div class="stat-top"><span class="ico" aria-hidden="true"></span>背包总券数</div>
+          <div class="stat-num" id="totalCount">0</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span class="ico" aria-hidden="true"></span>还没使用</div>
+          <div class="stat-num" id="newCount">0</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span class="ico" aria-hidden="true"></span>已经使用</div>
+          <div class="stat-num" id="usedCount">0</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="report">
+        <div class="report-head">
+          <h2 class="report-title">月度使用报告</h2>
+          <span class="report-month" id="reportMonth">-</span>
+        </div>
+        <div class="report-grid">
+          <div class="report-box">
+            <span class="report-k">本月新增</span>
+            <span class="report-v" id="monthAdded">0</span>
+          </div>
+          <div class="report-box">
+            <span class="report-k">本月已用</span>
+            <span class="report-v" id="monthUsed">0</span>
+          </div>
+          <div class="report-box">
+            <span class="report-k">当前剩余</span>
+            <span class="report-v" id="monthRemain">0</span>
+          </div>
+        </div>
+        <div class="trend-wrap">
+          <div class="trend-label">
+            <span id="trendPeriodLabel">剩余趋势（近7天）</span>
+            <div class="trend-tools">
+              <button id="trend7Btn" class="trend-btn active" type="button">7天</button>
+              <button id="trend30Btn" class="trend-btn" type="button">30天</button>
+            </div>
+            <span class="trend-value" id="monthTrendText">0</span>
+          </div>
+          <div class="trend-bars" id="trendBars"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="form-grid">
+        <input id="typeInput" list="typeOptions" placeholder="券类型（必填，例如：亲亲券）" />
+        <input id="quantityInput" type="number" min="1" step="1" value="1" aria-label="发放数量" />
+      </div>
+      <datalist id="typeOptions">
+        <option value="亲亲券"></option>
+        <option value="贴贴券"></option>
+        <option value="按摩券"></option>
+        <option value="礼物券"></option>
+        <option value="牵手散步券"></option>
+        <option value="夸夸券"></option>
+        <option value="和好券"></option>
+      </datalist>
+      <div class="form-grid-2">
+        <textarea id="noteInput" placeholder="备注（可选，比如：这张只能周末用）"></textarea>
+      </div>
+      <div class="setting-row">
+        <label class="switch" for="soundToggle">
+          <input id="soundToggle" type="checkbox" checked />
+          <span class="switch-track" aria-hidden="true"></span>
+          <span>音效</span>
+        </label>
+        <label class="switch" for="hapticToggle">
+          <input id="hapticToggle" type="checkbox" checked />
+          <span class="switch-track" aria-hidden="true"></span>
+          <span>震动</span>
+        </label>
+      </div>
+      <div class="btn-row">
+        <button class="primary" id="addBtn">新增券</button>
+        <button id="exportBtn">导出备份</button>
+        <button id="importBtn">导入备份</button>
+        <button class="danger" id="clearBtn">清空数据</button>
+      </div>
+      <input id="importFile" type="file" accept="application/json" hidden />
+    </section>
+
+    <section class="panel">
+      <div class="tabs">
+        <button class="tab active" data-tab="NEW" id="newTab">未使用</button>
+        <button class="tab" data-tab="USED" id="usedTab">已使用</button>
+      </div>
+      <div id="list" class="list"></div>
+    </section>
+  </main>
+  <div class="password-mask" id="passwordMask" hidden>
+    <div class="password-dialog">
+      <h2 class="password-title">输入使用密码</h2>
+      <p class="password-help">验证通过后才会把这张券标记为已使用</p>
+      <input id="passwordInput" type="password" autocomplete="off" placeholder="请输入密码" />
+      <div class="password-actions">
+        <button id="passwordCancel" type="button">取消</button>
+        <button id="passwordConfirm" class="primary" type="button">确认使用</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "my-backpack-v2";
+    const SETTINGS_KEY = "my-backpack-settings-v1";
+    const USE_PASSWORD = "004088";
+
+    const typeInput = document.getElementById("typeInput");
+    const quantityInput = document.getElementById("quantityInput");
+    const noteInput = document.getElementById("noteInput");
+    const addBtn = document.getElementById("addBtn");
+    const exportBtn = document.getElementById("exportBtn");
+    const importBtn = document.getElementById("importBtn");
+    const importFile = document.getElementById("importFile");
+    const clearBtn = document.getElementById("clearBtn");
+    const listEl = document.getElementById("list");
+    const soundToggleEl = document.getElementById("soundToggle");
+    const hapticToggleEl = document.getElementById("hapticToggle");
+    const fxLayerEl = document.getElementById("fxLayer");
+    const passwordMaskEl = document.getElementById("passwordMask");
+    const passwordInputEl = document.getElementById("passwordInput");
+    const passwordCancelEl = document.getElementById("passwordCancel");
+    const passwordConfirmEl = document.getElementById("passwordConfirm");
+
+    const totalCountEl = document.getElementById("totalCount");
+    const usedCountEl = document.getElementById("usedCount");
+    const newCountEl = document.getElementById("newCount");
+    const reportMonthEl = document.getElementById("reportMonth");
+    const monthAddedEl = document.getElementById("monthAdded");
+    const monthUsedEl = document.getElementById("monthUsed");
+    const monthRemainEl = document.getElementById("monthRemain");
+    const monthTrendTextEl = document.getElementById("monthTrendText");
+    const trendBarsEl = document.getElementById("trendBars");
+    const trendPeriodLabelEl = document.getElementById("trendPeriodLabel");
+    const trend7Btn = document.getElementById("trend7Btn");
+    const trend30Btn = document.getElementById("trend30Btn");
+
+    const newTab = document.getElementById("newTab");
+    const usedTab = document.getElementById("usedTab");
+
+    let tickets = [];
+    let activeTab = "NEW";
+    let audioCtx = null;
+    let settings = { sound: true, haptic: true };
+    let trendDays = 7;
+
+    function hashType(type) {
+      let h = 0;
+      for (let i = 0; i < type.length; i += 1) h = (h * 31 + type.charCodeAt(i)) | 0;
+      return Math.abs(h);
+    }
+
+    function getRaritySpec(type) {
+      if (type.includes("和好")) return { key: "legendary", label: "传说" };
+      if (type.includes("贴贴")) return { key: "epic", label: "史诗" };
+      if (type.includes("亲亲") || type.includes("礼物")) return { key: "rare", label: "稀有" };
+      return { key: "common", label: "普通" };
+    }
+
+    function getTypeVisual(type) {
+      const palettes = [
+        {
+          accent: "#66aefa",
+          bg: "linear-gradient(145deg, #84c5ff, #4f9bee)",
+          pattern: "radial-gradient(circle at 25% 25%, rgba(255,255,255,0.34), transparent 33%), linear-gradient(145deg, rgba(255,255,255,0.25), transparent 60%)"
+        },
+        {
+          accent: "#7eb0ff",
+          bg: "linear-gradient(145deg, #96c4ff, #6f9ef4)",
+          pattern: "repeating-linear-gradient(45deg, rgba(255,255,255,0.32), rgba(255,255,255,0.32) 5px, transparent 5px, transparent 10px)"
+        },
+        {
+          accent: "#6eb8d8",
+          bg: "linear-gradient(145deg, #89d5ef, #61accf)",
+          pattern: "repeating-radial-gradient(circle at 35% 35%, rgba(255,255,255,0.3), rgba(255,255,255,0.3) 3px, transparent 3px, transparent 8px)"
+        },
+        {
+          accent: "#7ea9d8",
+          bg: "linear-gradient(145deg, #9bbce4, #6f95c8)",
+          pattern: "linear-gradient(135deg, rgba(255,255,255,0.25), transparent 55%), linear-gradient(45deg, rgba(255,255,255,0.2), transparent 45%)"
+        }
+      ];
+
+      let iconType = "gift";
+      if (type.includes("亲")) iconType = "kiss";
+      else if (type.includes("贴") || type.includes("抱")) iconType = "hug";
+      else if (type.includes("按")) iconType = "massage";
+      else if (type.includes("和好") || type.includes("和")) iconType = "heart";
+      const style = palettes[hashType(type) % palettes.length];
+      return { iconType, ...style };
+    }
+
+    function getTicketIconSvg(iconType) {
+      const map = {
+        kiss: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M5 9.6c1.7-1.4 3.8-1.4 5.4.3-1.6 1.8-3.6 2-5.4.3M19 9.6c-1.7-1.4-3.8-1.4-5.4.3 1.6 1.8 3.6 2 5.4.3'/><path d='M7.4 15.8c1.3 1.1 2.9 1.7 4.6 1.7s3.3-.6 4.6-1.7'/></svg>",
+        hug: "<svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='8' cy='8.3' r='2.3'/><circle cx='16' cy='8.3' r='2.3'/><path d='M4.6 18c.2-2.7 2.2-4.4 4.8-4.4h.9l1.7 2.2 1.7-2.2h.9c2.6 0 4.6 1.7 4.8 4.4'/><path d='M7.8 15.2c1.2.9 2.6 1.3 4.2 1.3s3-.4 4.2-1.3'/></svg>",
+        massage: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M9 12.5v-5a1.6 1.6 0 1 1 3.2 0v4.1'/><path d='M12.2 11.6v-5a1.6 1.6 0 1 1 3.2 0v5.2'/><path d='M15.4 12v-4a1.5 1.5 0 1 1 3 0v6.1c0 2.6-1.7 4.9-4.2 5.6l-2.4.7a5 5 0 0 1-6.2-3.4L4.8 14a1.8 1.8 0 1 1 3.4-1.1l.8 2.3'/></svg>",
+        heart: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 20c-3.9-2.5-7-5-7-9.1 0-2.4 1.9-4.3 4.3-4.3 1.3 0 2.5.6 3.2 1.6.7-1 1.9-1.6 3.2-1.6 2.4 0 4.3 1.9 4.3 4.3 0 4.1-3.1 6.6-7 9.1z'/><path d='M12 9.3v4.7M9.7 11.7h4.6'/></svg>",
+        gift: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M4 10.5h16v9.5H4z'/><path d='M2.8 8h18.4v2.5H2.8z'/><path d='M12 8v12'/><path d='M8.8 8s-2.4-.1-2.4-2.2c0-1.3 1-2.3 2.3-2.3 2.1 0 3.3 2.8 3.3 4.5'/><path d='M15.2 8s2.4-.1 2.4-2.2c0-1.3-1-2.3-2.3-2.3-2.1 0-3.3 2.8-3.3 4.5'/></svg>"
+      };
+      return map[iconType] || map.gift;
+    }
+
+    function ensureAudioCtx() {
+      if (!audioCtx) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (Ctx) audioCtx = new Ctx();
+      }
+      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+      return audioCtx;
+    }
+
+    function playTone(ctx, freq, startAt, duration, gain, wave) {
+      const osc = ctx.createOscillator();
+      const amp = ctx.createGain();
+      osc.type = wave;
+      osc.frequency.setValueAtTime(freq, startAt);
+      amp.gain.setValueAtTime(0.0001, startAt);
+      amp.gain.exponentialRampToValueAtTime(gain, startAt + 0.02);
+      amp.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
+      osc.connect(amp);
+      amp.connect(ctx.destination);
+      osc.start(startAt);
+      osc.stop(startAt + duration + 0.03);
+    }
+
+    function playSound(kind) {
+      if (!settings.sound) return;
+      const ctx = ensureAudioCtx();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      if (kind === "add") {
+        playTone(ctx, 640, now, 0.11, 0.08, "sine");
+        playTone(ctx, 880, now + 0.09, 0.13, 0.07, "triangle");
+      } else if (kind === "use") {
+        playTone(ctx, 760, now, 0.1, 0.08, "triangle");
+        playTone(ctx, 980, now + 0.08, 0.11, 0.09, "sine");
+      }
+    }
+
+    function haptic(kind) {
+      if (!settings.haptic) return;
+      if (!navigator.vibrate) return;
+      const pattern = kind === "use" ? [16, 26, 18] : [18];
+      navigator.vibrate(pattern);
+    }
+
+    function burstAt(x, y, colors, count, shape) {
+      for (let i = 0; i < count; i += 1) {
+        const piece = document.createElement("span");
+        piece.className = `particle ${shape}`;
+        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+        const distance = 36 + Math.random() * 86;
+        const dx = Math.cos(angle) * distance;
+        const dy = Math.sin(angle) * distance + 40 + Math.random() * 55;
+        piece.style.left = `${x + (Math.random() - 0.5) * 12}px`;
+        piece.style.top = `${y + (Math.random() - 0.5) * 12}px`;
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.setProperty("--dx", `${dx.toFixed(1)}px`);
+        piece.style.setProperty("--dy", `${dy.toFixed(1)}px`);
+        piece.style.setProperty("--rot", `${Math.floor(Math.random() * 420 - 210)}deg`);
+        fxLayerEl.appendChild(piece);
+        setTimeout(() => piece.remove(), 860);
+      }
+    }
+
+    function launchParticles(target, kind) {
+      if (!target) return;
+      const rect = target.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      const colors = kind === "use" ? ["#66b2ff", "#4d9bf1", "#8ec9ff", "#d5eaff"] : ["#63d8bf", "#7de4cd", "#a8efdf", "#d7fbf2"];
+      const count = kind === "use" ? 26 : 20;
+      const shape = kind === "use" ? "star" : "bubble";
+      burstAt(x, y, colors, count, shape);
+    }
+
+    function runBatchFlyAnimation(originEl, quantity) {
+      if (!originEl || quantity <= 1) return;
+      const from = originEl.getBoundingClientRect();
+      const to = newCountEl.getBoundingClientRect();
+      const total = Math.min(quantity, 8);
+
+      for (let i = 0; i < total; i += 1) {
+        const ghost = document.createElement("span");
+        ghost.className = "fly-ticket";
+        const startX = from.left + from.width / 2 - 26 + (Math.random() - 0.5) * 20;
+        const startY = from.top + from.height / 2 - 15 + (Math.random() - 0.5) * 14;
+        const endX = to.left + to.width / 2 - 26;
+        const endY = to.top + to.height / 2 - 15;
+        ghost.style.left = `${startX}px`;
+        ghost.style.top = `${startY}px`;
+        ghost.style.setProperty("--tx", `${(endX - startX).toFixed(1)}px`);
+        ghost.style.setProperty("--ty", `${(endY - startY).toFixed(1)}px`);
+        ghost.style.setProperty("--rot", `${Math.floor(Math.random() * 20 - 10)}deg`);
+        ghost.style.animationDelay = `${i * 70}ms`;
+        fxLayerEl.appendChild(ghost);
+        setTimeout(() => ghost.remove(), 820 + i * 70);
+      }
+    }
+
+    function askPassword() {
+      return new Promise((resolve) => {
+        passwordMaskEl.hidden = false;
+        passwordInputEl.value = "";
+        passwordInputEl.focus();
+
+        const cleanup = () => {
+          passwordMaskEl.hidden = true;
+          passwordCancelEl.removeEventListener("click", onCancel);
+          passwordConfirmEl.removeEventListener("click", onConfirm);
+          passwordMaskEl.removeEventListener("click", onMaskClick);
+          passwordInputEl.removeEventListener("keydown", onEnter);
+        };
+
+        const onCancel = () => {
+          cleanup();
+          resolve(null);
+        };
+
+        const onConfirm = () => {
+          const val = passwordInputEl.value;
+          cleanup();
+          resolve(val);
+        };
+
+        const onMaskClick = (event) => {
+          if (event.target === passwordMaskEl) onCancel();
+        };
+
+        const onEnter = (event) => {
+          if (event.key === "Enter") onConfirm();
+          if (event.key === "Escape") onCancel();
+        };
+
+        passwordCancelEl.addEventListener("click", onCancel);
+        passwordConfirmEl.addEventListener("click", onConfirm);
+        passwordMaskEl.addEventListener("click", onMaskClick);
+        passwordInputEl.addEventListener("keydown", onEnter);
+      });
+    }
+
+    function saveSettings() {
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    }
+
+    function loadSettings() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}");
+        settings = {
+          sound: raw.sound !== false,
+          haptic: raw.haptic !== false
+        };
+      } catch {
+        settings = { sound: true, haptic: true };
+      }
+    }
+
+    function renderSettings() {
+      soundToggleEl.checked = settings.sound;
+      hapticToggleEl.checked = settings.haptic;
+    }
+
+    function uid() {
+      if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+      return `${Date.now()}-${Math.random().toString(16).slice(2, 10)}`;
+    }
+
+    function formatTime(ts) {
+      if (!ts) return "-";
+      const d = new Date(ts);
+      return d.toLocaleString("zh-CN", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function save() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tickets));
+    }
+
+    function isValidTicket(item) {
+      if (!item || typeof item !== "object") return false;
+      if (typeof item.id !== "string" || item.id.length === 0) return false;
+      if (typeof item.type !== "string" || item.type.trim().length === 0) return false;
+      if (item.status !== "NEW" && item.status !== "USED") return false;
+      if (typeof item.issuedAt !== "string" || Number.isNaN(Date.parse(item.issuedAt))) return false;
+      if (item.usedAt != null && (typeof item.usedAt !== "string" || Number.isNaN(Date.parse(item.usedAt)))) return false;
+      if (typeof item.note !== "string") return false;
+      return true;
+    }
+
+    function normalizeTicket(item) {
+      return {
+        id: item.id,
+        type: item.type.trim(),
+        note: item.note,
+        status: item.status,
+        issuedAt: item.issuedAt,
+        usedAt: item.status === "USED" ? item.usedAt || item.issuedAt : null
+      };
+    }
+
+    function load() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        if (!Array.isArray(raw)) {
+          tickets = [];
+          return;
+        }
+        tickets = raw.filter(isValidTicket).map(normalizeTicket);
+      } catch {
+        tickets = [];
+      }
+    }
+
+    function sortedByIssuedDesc(items) {
+      return [...items].sort((a, b) => new Date(b.issuedAt) - new Date(a.issuedAt));
+    }
+
+    function counts() {
+      const total = tickets.length;
+      const used = tickets.filter((x) => x.status === "USED").length;
+      return { total, used, fresh: total - used };
+    }
+
+    function remainingAt(timePoint) {
+      return tickets.filter((x) => {
+        const issued = new Date(x.issuedAt).getTime();
+        const used = x.usedAt ? new Date(x.usedAt).getTime() : null;
+        if (issued > timePoint) return false;
+        if (used == null) return true;
+        return used > timePoint;
+      }).length;
+    }
+
+    function getMonthReport(periodDays) {
+      const now = new Date();
+      const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+      const monthStartTs = monthStart.getTime();
+      const nextMonthStartTs = new Date(now.getFullYear(), now.getMonth() + 1, 1).getTime();
+      const inThisMonth = (ts) => ts >= monthStartTs && ts < nextMonthStartTs;
+
+      const added = tickets.filter((x) => inThisMonth(new Date(x.issuedAt).getTime())).length;
+      const used = tickets.filter((x) => x.usedAt && inThisMonth(new Date(x.usedAt).getTime())).length;
+      const remainNow = tickets.filter((x) => x.status === "NEW").length;
+      const remainAtStart = remainingAt(monthStartTs - 1);
+      const delta = remainNow - remainAtStart;
+
+      const bars = [];
+      for (let i = periodDays - 1; i >= 0; i -= 1) {
+        const day = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i, 23, 59, 59, 999);
+        bars.push(remainingAt(day.getTime()));
+      }
+
+      return {
+        monthLabel: `${now.getFullYear()}年${now.getMonth() + 1}月`,
+        added,
+        used,
+        remainNow,
+        delta,
+        bars
+      };
+    }
+
+    function renderStats() {
+      const c = counts();
+      totalCountEl.textContent = String(c.total);
+      usedCountEl.textContent = String(c.used);
+      newCountEl.textContent = String(c.fresh);
+      newTab.textContent = `未使用（${c.fresh}）`;
+      usedTab.textContent = `已使用（${c.used}）`;
+    }
+
+    function renderMonthReport() {
+      const report = getMonthReport(trendDays);
+      reportMonthEl.textContent = report.monthLabel;
+      monthAddedEl.textContent = String(report.added);
+      monthUsedEl.textContent = String(report.used);
+      monthRemainEl.textContent = String(report.remainNow);
+      trendPeriodLabelEl.textContent = `剩余趋势（近${trendDays}天）`;
+      trend7Btn.classList.toggle("active", trendDays === 7);
+      trend30Btn.classList.toggle("active", trendDays === 30);
+
+      const sign = report.delta > 0 ? "+" : "";
+      monthTrendTextEl.textContent = `${sign}${report.delta}`;
+      monthTrendTextEl.classList.toggle("up", report.delta > 0);
+      monthTrendTextEl.classList.toggle("down", report.delta < 0);
+
+      const max = Math.max(...report.bars, 1);
+      trendBarsEl.innerHTML = "";
+      report.bars.forEach((v) => {
+        const bar = document.createElement("span");
+        bar.className = "trend-bar";
+        const h = Math.max(6, Math.round((v / max) * 32));
+        bar.style.height = `${h}px`;
+        bar.title = `剩余 ${v}`;
+        trendBarsEl.appendChild(bar);
+      });
+    }
+
+    function setTab(tab) {
+      activeTab = tab;
+      newTab.classList.toggle("active", tab === "NEW");
+      usedTab.classList.toggle("active", tab === "USED");
+      renderStats();
+      renderMonthReport();
+      renderList();
+    }
+
+    async function useTicket(id, triggerEl) {
+      const target = tickets.find((x) => x.id === id);
+      if (!target || target.status !== "NEW") return;
+      if (settings.sound) ensureAudioCtx();
+
+      const input = await askPassword();
+      if (input === null) return;
+      if (input !== USE_PASSWORD) {
+        window.alert("密码不正确，不能使用这张券");
+        return;
+      }
+
+      target.status = "USED";
+      target.usedAt = new Date().toISOString();
+      save();
+      renderAll();
+      launchParticles(triggerEl, "use");
+      haptic("use");
+      playSound("use");
+    }
+
+    function renderList() {
+      const current = sortedByIssuedDesc(tickets.filter((x) => x.status === activeTab));
+      listEl.innerHTML = "";
+
+      if (current.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "当前分类还没有票券";
+        listEl.appendChild(empty);
+        return;
+      }
+
+      current.forEach((ticket) => {
+        const card = document.createElement("article");
+        const rarity = getRaritySpec(ticket.type);
+        const needsEnter = rarity.key === "rare" || rarity.key === "epic" || rarity.key === "legendary";
+        card.className = `card rarity-${rarity.key} ${ticket.status === "USED" ? "used" : ""} ${needsEnter ? "enter" : ""}`;
+        if (needsEnter) card.style.animationDelay = `${Math.min(6, listEl.children.length) * 70}ms`;
+        const corner = document.createElement("span");
+        corner.className = "ticket-corner";
+        corner.textContent = rarity.label;
+        const notchLeft = document.createElement("span");
+        notchLeft.className = "ticket-notch left";
+        const notchRight = document.createElement("span");
+        notchRight.className = "ticket-notch right";
+        const perf = document.createElement("span");
+        perf.className = "ticket-perf";
+
+        const line1 = document.createElement("div");
+        line1.className = "line";
+
+        const name = document.createElement("div");
+        const visual = getTypeVisual(ticket.type);
+        name.className = "ticket-name";
+        const stamp = document.createElement("span");
+        stamp.className = "ticket-stamp";
+        stamp.setAttribute("aria-hidden", "true");
+        stamp.style.setProperty("--stamp-bg", visual.bg);
+        stamp.style.setProperty("--stamp-pattern", visual.pattern);
+        stamp.innerHTML = getTicketIconSvg(visual.iconType);
+
+        const titleText = document.createElement("span");
+        titleText.textContent = ticket.type;
+        name.appendChild(stamp);
+        name.appendChild(titleText);
+        card.style.setProperty("--accent", visual.accent);
+
+        if (ticket.status === "NEW") {
+          const actionBtn = document.createElement("button");
+          actionBtn.textContent = "使用";
+          actionBtn.className = "primary";
+          actionBtn.addEventListener("click", (event) => useTicket(ticket.id, event.currentTarget));
+          line1.appendChild(name);
+          line1.appendChild(actionBtn);
+        } else {
+          const usedBadge = document.createElement("span");
+          usedBadge.className = "pill-used";
+          usedBadge.textContent = "已使用";
+          line1.appendChild(name);
+          line1.appendChild(usedBadge);
+        }
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.innerHTML = `
+          <span>发放时间：${formatTime(ticket.issuedAt)}</span>
+          ${ticket.status === "USED" ? `<span>使用时间：${formatTime(ticket.usedAt)}</span>` : ""}
+        `;
+
+        card.appendChild(line1);
+        card.appendChild(meta);
+
+        if (ticket.note.trim()) {
+          const note = document.createElement("div");
+          note.className = "remark";
+          note.textContent = `备注：${ticket.note}`;
+          card.appendChild(note);
+        }
+
+        card.appendChild(corner);
+        card.appendChild(notchLeft);
+        card.appendChild(notchRight);
+        card.appendChild(perf);
+        listEl.appendChild(card);
+      });
+    }
+
+    function renderAll() {
+      renderStats();
+      renderMonthReport();
+      renderList();
+    }
+
+    function addTickets() {
+      if (settings.sound) ensureAudioCtx();
+      const type = typeInput.value.trim();
+      const quantity = Math.max(1, Number.parseInt(quantityInput.value, 10) || 1);
+      const note = noteInput.value.trim();
+
+      if (!type) {
+        alert("券类型不能为空");
+        typeInput.focus();
+        return;
+      }
+
+      const now = new Date().toISOString();
+      for (let i = 0; i < quantity; i += 1) {
+        tickets.push({
+          id: uid(),
+          type,
+          note,
+          status: "NEW",
+          issuedAt: now,
+          usedAt: null
+        });
+      }
+
+      save();
+      setTab("NEW");
+      runBatchFlyAnimation(addBtn, quantity);
+      launchParticles(addBtn, "add");
+      haptic("add");
+      playSound("add");
+      typeInput.value = "";
+      noteInput.value = "";
+      quantityInput.value = "1";
+    }
+
+    function exportBackup() {
+      const payload = JSON.stringify(tickets, null, 2);
+      const blob = new Blob([payload], { type: "application/json" });
+      const href = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const d = new Date();
+      const stamp = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}-${String(d.getHours()).padStart(2, "0")}${String(d.getMinutes()).padStart(2, "0")}`;
+      a.href = href;
+      a.download = `my-backpack-${stamp}.json`;
+      a.click();
+      URL.revokeObjectURL(href);
+    }
+
+    async function importBackup(file) {
+      const text = await file.text();
+      let parsed;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        alert("JSON 格式有问题，导入失败");
+        return;
+      }
+
+      if (!Array.isArray(parsed)) {
+        alert("备份文件必须是数组格式");
+        return;
+      }
+
+      if (!parsed.every(isValidTicket)) {
+        alert("文件里有不合法的票券数据，导入失败");
+        return;
+      }
+
+      tickets = parsed.map(normalizeTicket);
+      save();
+      setTab("NEW");
+      alert("导入成功，背包已恢复");
+    }
+
+    function clearAll() {
+      const first = window.confirm("危险操作：确定要清空所有票券吗？");
+      if (!first) return;
+      const second = window.confirm("再确认一次：清空后需要靠备份才能恢复，继续吗？");
+      if (!second) return;
+      const third = window.confirm("最后确认：真的真的要清空吗？");
+      if (!third) return;
+
+      tickets = [];
+      save();
+      renderAll();
+      alert("已清空完成");
+    }
+
+    addBtn.addEventListener("click", addTickets);
+    newTab.addEventListener("click", () => setTab("NEW"));
+    usedTab.addEventListener("click", () => setTab("USED"));
+    exportBtn.addEventListener("click", exportBackup);
+    importBtn.addEventListener("click", () => importFile.click());
+    clearBtn.addEventListener("click", clearAll);
+    soundToggleEl.addEventListener("change", () => {
+      settings.sound = soundToggleEl.checked;
+      saveSettings();
+      if (settings.sound) {
+        ensureAudioCtx();
+        playSound("add");
+      }
+    });
+    hapticToggleEl.addEventListener("change", () => {
+      settings.haptic = hapticToggleEl.checked;
+      saveSettings();
+      if (settings.haptic) haptic("add");
+    });
+    trend7Btn.addEventListener("click", () => {
+      trendDays = 7;
+      renderMonthReport();
+    });
+    trend30Btn.addEventListener("click", () => {
+      trendDays = 30;
+      renderMonthReport();
+    });
+
+    importFile.addEventListener("change", async (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      await importBackup(file);
+      importFile.value = "";
+    });
+
+    loadSettings();
+    renderSettings();
+    load();
+    renderAll();
+
+    if ("serviceWorker" in navigator && window.location.protocol !== "file:") {
+      navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+    }
+  </script>
+</body>
+</html>

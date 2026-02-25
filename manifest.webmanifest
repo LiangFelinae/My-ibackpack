@@ -1,0 +1,23 @@
+{
+  "name": "我的背包",
+  "short_name": "我的背包",
+  "description": "单人票券背包：新增、使用、撤销、统计、导入导出。",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef7ff",
+  "theme_color": "#7cb8ff",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
