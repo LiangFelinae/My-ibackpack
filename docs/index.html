@@ -27,6 +27,32 @@
       --shadow: 0 14px 32px rgba(89, 152, 224, 0.2);
     }
 
+    body[data-theme="cream"] {
+      --bg-a: #fff7ea;
+      --bg-b: #ffeccb;
+      --line: rgba(224, 171, 96, 0.28);
+      --text: #855222;
+      --sub: #a17246;
+      --primary: #f3b25f;
+      --primary-deep: #e99b3b;
+      --used: #f3efe9;
+      --used-line: #e5d7c6;
+      --shadow: 0 14px 32px rgba(191, 139, 65, 0.2);
+    }
+
+    body[data-theme="mint"] {
+      --bg-a: #eafff5;
+      --bg-b: #d2f8e8;
+      --line: rgba(82, 180, 145, 0.28);
+      --text: #196a56;
+      --sub: #428875;
+      --primary: #4bc7a2;
+      --primary-deep: #2fab88;
+      --used: #eaf3f0;
+      --used-line: #cbe2da;
+      --shadow: 0 14px 32px rgba(67, 163, 130, 0.2);
+    }
+
     * { box-sizing: border-box; }
 
     body {
@@ -283,10 +309,16 @@
     }
 
     .trend-bars {
-      height: 36px;
+      min-width: 100%;
+      height: 58px;
       display: flex;
       align-items: flex-end;
-      gap: 4px;
+      gap: 6px;
+    }
+
+    .trend-scroll {
+      overflow-x: auto;
+      padding-bottom: 4px;
     }
 
     .trend-tools {
@@ -317,11 +349,24 @@
     }
 
     .trend-bar {
-      flex: 1;
-      min-width: 6px;
+      width: 100%;
       border-radius: 6px 6px 3px 3px;
       background: linear-gradient(180deg, rgba(109, 184, 255, 0.95), rgba(121, 200, 255, 0.8));
       height: 8px;
+    }
+
+    .trend-col {
+      width: 18px;
+      display: grid;
+      gap: 4px;
+      justify-items: center;
+      flex: 0 0 auto;
+    }
+
+    .trend-date {
+      font-size: 10px;
+      color: #7293b9;
+      line-height: 1;
     }
 
     .ico {
@@ -364,6 +409,28 @@
       gap: 10px;
       flex-wrap: wrap;
       margin: 2px 0 10px;
+    }
+
+    .theme-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 10px;
+    }
+
+    .theme-btn {
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .theme-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-deep));
+      color: #fff;
+      border-color: transparent;
     }
 
     .switch {
@@ -458,6 +525,12 @@
       color: #356396;
       font-weight: 600;
       cursor: pointer;
+      transition: transform 120ms ease, box-shadow 160ms ease;
+    }
+
+    button:active {
+      transform: scale(0.97);
+      box-shadow: 0 0 0 3px rgba(111, 175, 252, 0.2);
     }
 
     button.primary {
@@ -548,16 +621,24 @@
       pointer-events: none;
     }
 
+    .card.rarity-epic:not(.used) {
+      animation: epic-breath 2.8s ease-in-out infinite;
+    }
+
+    .card.rarity-legendary:not(.used) {
+      animation: legendary-breath 3s ease-in-out infinite;
+    }
+
     .card.enter.rarity-rare {
       animation: rarity-enter-rare 500ms cubic-bezier(.2,.8,.2,1) both;
     }
 
     .card.enter.rarity-epic {
-      animation: rarity-enter-epic 560ms cubic-bezier(.2,.8,.2,1) both;
+      animation: rarity-enter-epic 560ms cubic-bezier(.2,.8,.2,1) both, epic-breath 2.8s ease-in-out 680ms infinite;
     }
 
     .card.enter.rarity-legendary {
-      animation: rarity-enter-legendary 640ms cubic-bezier(.2,.8,.2,1) both;
+      animation: rarity-enter-legendary 640ms cubic-bezier(.2,.8,.2,1) both, legendary-breath 3s ease-in-out 780ms infinite;
     }
 
     .card.enter.rarity-legendary::after {
@@ -586,6 +667,16 @@
       0% { background-position: -170px 0; opacity: 0.15; }
       20% { opacity: 0.42; }
       100% { background-position: 200px 0; opacity: 0.12; }
+    }
+
+    @keyframes epic-breath {
+      0%, 70%, 100% { box-shadow: 0 10px 20px rgba(141, 124, 240, 0.24); transform: scale(1); filter: saturate(1); }
+      82% { box-shadow: 0 16px 32px rgba(141, 124, 240, 0.52); transform: scale(1.018); filter: saturate(1.2); }
+    }
+
+    @keyframes legendary-breath {
+      0%, 68%, 100% { box-shadow: 0 12px 22px rgba(244, 185, 85, 0.28); transform: scale(1); filter: saturate(1); }
+      82% { box-shadow: 0 18px 34px rgba(244, 185, 85, 0.62); transform: scale(1.024); filter: saturate(1.26); }
     }
 
     .ticket-notch {
@@ -668,6 +759,8 @@
       align-items: center;
       gap: 6px;
       font-weight: 700;
+      font-size: 20px;
+      line-height: 1.15;
     }
 
     .ticket-name .icon {
@@ -692,9 +785,9 @@
     }
 
     .ticket-stamp {
-      width: 30px;
-      height: 30px;
-      border-radius: 10px;
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.7);
       background: var(--stamp-bg, linear-gradient(145deg, #7abfff, #4d98f0));
       box-shadow: 0 8px 15px rgba(78, 145, 220, 0.25);
@@ -710,8 +803,8 @@
     }
 
     .ticket-stamp svg {
-      width: 18px;
-      height: 18px;
+      width: 34px;
+      height: 34px;
       display: block;
       fill: none;
       stroke: currentColor;
@@ -723,6 +816,14 @@
     .ticket-stamp svg .fill {
       fill: currentColor;
       stroke: none;
+    }
+
+    .ticket-stamp img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 13px;
+      display: block;
     }
 
     .ticket-stamp::before {
@@ -745,15 +846,30 @@
       border: 1px solid #b8c1cd;
       background: #f5f7fa;
       color: #7b8797;
-      font-size: 12px;
-      padding: 5px 10px;
+      font-size: 13px;
+      padding: 6px 11px;
     }
 
     .meta {
-      font-size: 12px;
+      font-size: 15px;
       color: var(--sub);
       display: grid;
-      gap: 4px;
+      gap: 5px;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+    }
+
+    .card-bottom {
+      border-top: 1px dashed rgba(130, 174, 219, 0.55);
+      padding-top: 8px;
+      display: grid;
+      gap: 6px;
     }
 
     .card.used .meta {
@@ -761,8 +877,8 @@
     }
 
     .remark {
-      font-size: 13px;
-      line-height: 1.4;
+      font-size: 16px;
+      line-height: 1.45;
       color: #3f6f9f;
       white-space: pre-wrap;
       word-break: break-word;
@@ -935,6 +1051,28 @@
       margin-top: 2px;
     }
 
+    .toast {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 60;
+      background: rgba(31, 79, 130, 0.92);
+      color: #fff;
+      font-size: 13px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      box-shadow: 0 8px 20px rgba(22, 67, 114, 0.28);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
     @media (max-width: 560px) {
       .title {
         font-size: 26px;
@@ -958,8 +1096,9 @@
     }
   </style>
 </head>
-<body>
+<body data-theme="ocean">
   <div id="fxLayer" class="fx-layer"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <main class="app">
     <section class="panel hero">
       <div class="hero-main">
@@ -1028,7 +1167,9 @@
             </div>
             <span class="trend-value" id="monthTrendText">0</span>
           </div>
-          <div class="trend-bars" id="trendBars"></div>
+          <div class="trend-scroll">
+            <div class="trend-bars" id="trendBars"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -1061,6 +1202,11 @@
           <span class="switch-track" aria-hidden="true"></span>
           <span>震动</span>
         </label>
+      </div>
+      <div class="theme-row">
+        <button class="theme-btn active" id="themeOceanBtn" type="button">海盐蓝</button>
+        <button class="theme-btn" id="themeCreamBtn" type="button">阳光橙</button>
+        <button class="theme-btn" id="themeMintBtn" type="button">薄荷绿</button>
       </div>
       <div class="btn-row">
         <button class="primary" id="addBtn">新增券</button>
@@ -1125,6 +1271,10 @@
     const trendPeriodLabelEl = document.getElementById("trendPeriodLabel");
     const trend7Btn = document.getElementById("trend7Btn");
     const trend30Btn = document.getElementById("trend30Btn");
+    const toastEl = document.getElementById("toast");
+    const themeOceanBtn = document.getElementById("themeOceanBtn");
+    const themeCreamBtn = document.getElementById("themeCreamBtn");
+    const themeMintBtn = document.getElementById("themeMintBtn");
 
     const newTab = document.getElementById("newTab");
     const usedTab = document.getElementById("usedTab");
@@ -1132,7 +1282,7 @@
     let tickets = [];
     let activeTab = "NEW";
     let audioCtx = null;
-    let settings = { sound: true, haptic: true };
+    let settings = { sound: true, haptic: true, theme: "ocean" };
     let trendDays = 7;
 
     function hashType(type) {
@@ -1172,40 +1322,18 @@
         }
       ];
 
-      let iconType = "ticket";
-      let iconColor = "#ffffff";
-      if (type.includes("亲")) {
-        iconType = "kiss";
-        iconColor = "#ff4d6f";
-      } else if (type.includes("贴") || type.includes("抱")) {
-        iconType = "hug";
-      } else if (type.includes("礼物")) {
-        iconType = "gift";
-      } else if (type.includes("牵手") || type.includes("散步")) {
-        iconType = "walk";
-      } else if (type.includes("夸")) {
-        iconType = "spark";
-      } else if (type.includes("按")) {
-        iconType = "massage";
+      let iconSrc = "icons/pic-3.png";
+      if (type.includes("亲亲")) {
+        iconSrc = "icons/pic-5.png";
+      } else if (type.includes("贴贴")) {
+        iconSrc = "icons/pic-4.png";
       } else if (type.includes("和好")) {
-        iconType = "heart";
+        iconSrc = "icons/pic-1.png";
+      } else if (type.includes("礼物")) {
+        iconSrc = "icons/pic-2.png";
       }
       const style = palettes[hashType(type) % palettes.length];
-      return { iconType, iconColor, ...style };
-    }
-
-    function getTicketIconSvg(iconType) {
-      const map = {
-        kiss: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M3.7 10.6c1.4-2 3.5-2.3 5.4-.9 1.2.9 2 2 2.9 3.4-.9.9-2 1.6-3.2 2.1-2.1.8-4 .2-5.1-1.7z'/><path d='M20.3 10.6c-1.4-2-3.5-2.3-5.4-.9-1.2.9-2 2-2.9 3.4.9.9 2 1.6 3.2 2.1 2.1.8 4 .2 5.1-1.7z'/></svg>",
-        hug: "<svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='8' cy='8.2' r='2.1'/><circle cx='16' cy='8.2' r='2.1'/><path d='M4.8 18.2c.2-2.5 2.1-4.1 4.6-4.1h1l1.6 2 1.6-2h1c2.5 0 4.4 1.6 4.6 4.1'/><path d='M8.2 15.4c1.1.8 2.4 1.2 3.8 1.2s2.7-.4 3.8-1.2'/></svg>",
-        massage: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M9 12.4V8.1a1.6 1.6 0 1 1 3.2 0v3.8'/><path d='M12.2 11.4V7.6a1.6 1.6 0 1 1 3.2 0v4.7'/><path d='M15.4 11.7V8.6a1.5 1.5 0 1 1 3 0v5.6c0 2.5-1.6 4.6-4 5.3l-2.3.7a4.9 4.9 0 0 1-6-3.3l-.8-2.7a1.8 1.8 0 1 1 3.4-1.1l.8 2.2'/></svg>",
-        heart: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 20c-3.8-2.4-6.9-4.9-6.9-9 0-2.4 1.9-4.2 4.2-4.2 1.3 0 2.4.6 3.1 1.6.7-1 1.8-1.6 3.1-1.6 2.3 0 4.2 1.8 4.2 4.2 0 4.1-3.1 6.6-6.9 9z'/></svg>",
-        walk: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M8 6.2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z'/><path d='M14.9 12.4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z'/><path d='M9.2 10.4l2.8 2.1M7.2 14.4l2.7 2.1M13.7 16.5l2.7 2.1'/></svg>",
-        spark: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 3.8v3.4M12 16.8v3.4M4.8 12h3.4M15.8 12h3.4M6.8 6.8l2.4 2.4M14.8 14.8l2.4 2.4M17.2 6.8l-2.4 2.4M9.2 14.8l-2.4 2.4'/><circle class='fill' cx='12' cy='12' r='1.6'/></svg>",
-        gift: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M4 10.5h16v9.5H4z'/><path d='M2.8 8h18.4v2.5H2.8z'/><path d='M12 8v12'/><path d='M8.8 8s-2.4-.1-2.4-2.2c0-1.3 1-2.3 2.3-2.3 2.1 0 3.3 2.8 3.3 4.5'/><path d='M15.2 8s2.4-.1 2.4-2.2c0-1.3-1-2.3-2.3-2.3-2.1 0-3.3 2.8-3.3 4.5'/></svg>",
-        ticket: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M4 8.2h16v7.6a1.9 1.9 0 0 0-1.9 1.9H5.9A1.9 1.9 0 0 0 4 15.8z'/><path d='M12 8.2v9.5'/></svg>"
-      };
-      return map[iconType] || map.ticket;
+      return { iconSrc, ...style };
     }
 
     function ensureAudioCtx() {
@@ -1379,16 +1507,34 @@
         const raw = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}");
         settings = {
           sound: raw.sound !== false,
-          haptic: raw.haptic !== false
+          haptic: raw.haptic !== false,
+          theme: raw.theme || "ocean"
         };
       } catch {
-        settings = { sound: true, haptic: true };
+        settings = { sound: true, haptic: true, theme: "ocean" };
       }
     }
 
     function renderSettings() {
       soundToggleEl.checked = settings.sound;
       hapticToggleEl.checked = settings.haptic;
+      applyTheme(settings.theme);
+      themeOceanBtn.classList.toggle("active", settings.theme === "ocean");
+      themeCreamBtn.classList.toggle("active", settings.theme === "cream");
+      themeMintBtn.classList.toggle("active", settings.theme === "mint");
+    }
+
+    function applyTheme(theme) {
+      document.body.setAttribute("data-theme", theme);
+    }
+
+    function showToast(text) {
+      toastEl.textContent = text;
+      toastEl.classList.add("show");
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => {
+        toastEl.classList.remove("show");
+      }, 1700);
     }
 
     function uid() {
@@ -1532,13 +1678,23 @@
 
       const max = Math.max(...report.bars, 1);
       trendBarsEl.innerHTML = "";
-      report.bars.forEach((v) => {
+      report.bars.forEach((v, idx) => {
+        const col = document.createElement("div");
+        col.className = "trend-col";
+        col.style.width = trendDays === 30 ? "16px" : "28px";
         const bar = document.createElement("span");
         bar.className = "trend-bar";
         const h = Math.max(6, Math.round((v / max) * 32));
         bar.style.height = `${h}px`;
-        bar.title = `剩余 ${v}`;
-        trendBarsEl.appendChild(bar);
+        const d = new Date();
+        d.setDate(d.getDate() - (trendDays - 1 - idx));
+        const label = document.createElement("span");
+        label.className = "trend-date";
+        label.textContent = trendDays === 30 ? `${d.getMonth() + 1}/${d.getDate()}` : `${d.getDate()}`;
+        bar.title = `${label.textContent} 剩余 ${v}`;
+        col.appendChild(bar);
+        col.appendChild(label);
+        trendBarsEl.appendChild(col);
       });
     }
 
@@ -1602,8 +1758,8 @@
         const perf = document.createElement("span");
         perf.className = "ticket-perf";
 
-        const line1 = document.createElement("div");
-        line1.className = "line";
+        const top = document.createElement("div");
+        top.className = "card-top";
 
         const name = document.createElement("div");
         const visual = getTypeVisual(ticket.type);
@@ -1613,8 +1769,7 @@
         stamp.setAttribute("aria-hidden", "true");
         stamp.style.setProperty("--stamp-bg", visual.bg);
         stamp.style.setProperty("--stamp-pattern", visual.pattern);
-        stamp.style.color = visual.iconColor || "#ffffff";
-        stamp.innerHTML = getTicketIconSvg(visual.iconType);
+        stamp.innerHTML = `<img src="${visual.iconSrc}" alt="" />`;
 
         const titleText = document.createElement("span");
         titleText.textContent = ticket.type;
@@ -1627,33 +1782,35 @@
           actionBtn.textContent = "使用";
           actionBtn.className = "primary";
           actionBtn.addEventListener("click", (event) => useTicket(ticket.id, event.currentTarget));
-          line1.appendChild(name);
-          line1.appendChild(actionBtn);
+          top.appendChild(name);
+          top.appendChild(actionBtn);
         } else {
           const usedBadge = document.createElement("span");
           usedBadge.className = "pill-used";
           usedBadge.textContent = "已使用";
-          line1.appendChild(name);
-          line1.appendChild(usedBadge);
+          top.appendChild(name);
+          top.appendChild(usedBadge);
         }
 
+        const bottom = document.createElement("div");
+        bottom.className = "card-bottom";
         const meta = document.createElement("div");
         meta.className = "meta";
         meta.innerHTML = `
           <span>发放时间：${formatTime(ticket.issuedAt)}</span>
           ${ticket.status === "USED" ? `<span>使用时间：${formatTime(ticket.usedAt)}</span>` : ""}
         `;
-
-        card.appendChild(line1);
-        card.appendChild(meta);
+        bottom.appendChild(meta);
 
         if (ticket.note.trim()) {
           const note = document.createElement("div");
           note.className = "remark";
           note.textContent = `备注：${ticket.note}`;
-          card.appendChild(note);
+          bottom.appendChild(note);
         }
 
+        card.appendChild(top);
+        card.appendChild(bottom);
         card.appendChild(corner);
         card.appendChild(notchLeft);
         card.appendChild(notchRight);
@@ -1699,6 +1856,7 @@
       launchPulse(addBtn, "add");
       haptic("add");
       playSound("add");
+      showToast(`已新增 ${quantity} 张 ${type}`);
       typeInput.value = "";
       noteInput.value = "";
       quantityInput.value = "1";
@@ -1740,7 +1898,7 @@
       tickets = parsed.map(normalizeTicket);
       save();
       setTab("NEW");
-      alert("导入成功，背包已恢复");
+      showToast("导入成功，背包已恢复");
     }
 
     function clearAll() {
@@ -1754,7 +1912,7 @@
       tickets = [];
       save();
       renderAll();
-      alert("已清空完成");
+      showToast("已清空完成");
     }
 
     addBtn.addEventListener("click", addTickets);
@@ -1775,6 +1933,21 @@
       settings.haptic = hapticToggleEl.checked;
       saveSettings();
       if (settings.haptic) haptic("add");
+    });
+    themeOceanBtn.addEventListener("click", () => {
+      settings.theme = "ocean";
+      saveSettings();
+      renderSettings();
+    });
+    themeCreamBtn.addEventListener("click", () => {
+      settings.theme = "cream";
+      saveSettings();
+      renderSettings();
+    });
+    themeMintBtn.addEventListener("click", () => {
+      settings.theme = "mint";
+      saveSettings();
+      renderSettings();
     });
     trend7Btn.addEventListener("click", () => {
       trendDays = 7;

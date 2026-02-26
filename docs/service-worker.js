@@ -1,4 +1,4 @@
-const CACHE_NAME = "my-backpack-v5";
+const CACHE_NAME = "my-backpack-v6";
 const ASSETS = [
   "./",
   "./index.html",
@@ -6,7 +6,12 @@ const ASSETS = [
   "./service-worker.js",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
-  "./icons/apple-touch-icon.png"
+  "./icons/apple-touch-icon.png",
+  "./icons/pic-1.png",
+  "./icons/pic-2.png",
+  "./icons/pic-3.png",
+  "./icons/pic-4.png",
+  "./icons/pic-5.png"
 ];
 
 self.addEventListener("install", (event) => {
