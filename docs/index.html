@@ -670,13 +670,13 @@
     }
 
     @keyframes epic-breath {
-      0%, 70%, 100% { box-shadow: 0 10px 20px rgba(141, 124, 240, 0.24); transform: scale(1); filter: saturate(1); }
-      82% { box-shadow: 0 16px 32px rgba(141, 124, 240, 0.52); transform: scale(1.018); filter: saturate(1.2); }
+      0%, 72%, 100% { box-shadow: 0 10px 20px rgba(141, 124, 240, 0.22); transform: scale(1); filter: saturate(1); }
+      82% { box-shadow: 0 12px 24px rgba(141, 124, 240, 0.34); transform: scale(1.006); filter: saturate(1.08); }
     }
 
     @keyframes legendary-breath {
-      0%, 68%, 100% { box-shadow: 0 12px 22px rgba(244, 185, 85, 0.28); transform: scale(1); filter: saturate(1); }
-      82% { box-shadow: 0 18px 34px rgba(244, 185, 85, 0.62); transform: scale(1.024); filter: saturate(1.26); }
+      0%, 70%, 100% { box-shadow: 0 12px 22px rgba(244, 185, 85, 0.24); transform: scale(1); filter: saturate(1); }
+      82% { box-shadow: 0 14px 28px rgba(244, 185, 85, 0.38); transform: scale(1.008); filter: saturate(1.1); }
     }
 
     .ticket-notch {
@@ -1092,6 +1092,40 @@
 
       .form-grid {
         grid-template-columns: 1fr;
+      }
+    }
+
+    /* iPhone super size mode */
+    @media (max-width: 520px) and (hover: none) and (pointer: coarse) {
+      .ticket-name {
+        font-size: 24px;
+        gap: 8px;
+      }
+
+      .ticket-stamp {
+        width: 72px;
+        height: 72px;
+        border-radius: 16px;
+      }
+
+      .ticket-stamp img {
+        border-radius: 15px;
+      }
+
+      .meta {
+        font-size: 17px;
+      }
+
+      .remark {
+        font-size: 18px;
+      }
+
+      .pill-used {
+        font-size: 14px;
+      }
+
+      .card-top {
+        align-items: flex-start;
       }
     }
   </style>
