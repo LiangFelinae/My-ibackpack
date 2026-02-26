@@ -1,4 +1,4 @@
-const CACHE_NAME = "my-backpack-v2";
+const CACHE_NAME = "my-backpack-v5";
 const ASSETS = [
   "./",
   "./index.html",

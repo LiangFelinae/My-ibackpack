@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>我的背包</title>
+  <title>小亮的背包</title>
   <meta name="theme-color" content="#7cb8ff" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="我的背包" />
+  <meta name="apple-mobile-web-app-title" content="小亮的背包" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
   <style>
@@ -110,6 +110,14 @@
       place-items: center;
       box-shadow: 0 10px 18px rgba(73, 149, 239, 0.32);
       flex: 0 0 auto;
+      overflow: hidden;
+    }
+
+    .logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .title {
@@ -705,11 +713,16 @@
       width: 18px;
       height: 18px;
       display: block;
-      fill: currentColor;
+      fill: none;
       stroke: currentColor;
-      stroke-width: 1.8;
+      stroke-width: 1.9;
       stroke-linecap: round;
       stroke-linejoin: round;
+    }
+
+    .ticket-stamp svg .fill {
+      fill: currentColor;
+      stroke: none;
     }
 
     .ticket-stamp::before {
@@ -801,6 +814,24 @@
       box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.5);
     }
 
+    .pulse-ring {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(106, 180, 255, 0.8);
+      pointer-events: none;
+      animation: pulse-ring 620ms ease-out forwards;
+    }
+
+    .pulse-ring.add {
+      border-color: rgba(102, 216, 191, 0.85);
+    }
+
+    .pulse-ring.use {
+      border-color: rgba(102, 178, 255, 0.9);
+    }
+
     .fly-ticket {
       position: fixed;
       width: 52px;
@@ -834,6 +865,17 @@
       }
       100% {
         transform: translate3d(var(--tx), var(--ty), 0) scale(0.5) rotate(var(--rot));
+        opacity: 0;
+      }
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        transform: translate3d(0, 0, 0) scale(0.4);
+        opacity: 0.95;
+      }
+      100% {
+        transform: translate3d(var(--dx), var(--dy), 0) scale(3.3);
         opacity: 0;
       }
     }
@@ -922,16 +964,10 @@
     <section class="panel hero">
       <div class="hero-main">
         <div class="logo-wrap" aria-hidden="true">
-          <svg viewBox="0 0 64 64" width="34" height="34" role="img">
-            <path d="M18 25h28a6 6 0 0 1 6 6v20a7 7 0 0 1-7 7H19a7 7 0 0 1-7-7V31a6 6 0 0 1 6-6z" fill="#f6fbff" />
-            <path d="M24 24v-3a8 8 0 1 1 16 0v3" fill="none" stroke="#dff2ff" stroke-width="5" stroke-linecap="round" />
-            <path d="M24 24v-3a8 8 0 1 1 16 0v3" fill="none" stroke="#2f72b2" stroke-width="3" stroke-linecap="round" />
-            <path d="M12 34h40" stroke="#c0dfff" stroke-width="4" />
-            <circle cx="32" cy="42" r="5" fill="#5aa4f6" />
-          </svg>
+          <img class="logo-img" src="icons/apple-touch-icon.png" alt="背包图标" />
         </div>
         <div>
-          <h1 class="title">我的背包</h1>
+          <h1 class="title">小亮的背包</h1>
           <p class="subtitle">今天也把遥遥的小心意装进背包里吧</p>
         </div>
       </div>
@@ -1136,24 +1172,40 @@
         }
       ];
 
-      let iconType = "gift";
-      if (type.includes("亲")) iconType = "kiss";
-      else if (type.includes("贴") || type.includes("抱")) iconType = "hug";
-      else if (type.includes("按")) iconType = "massage";
-      else if (type.includes("和好") || type.includes("和")) iconType = "heart";
+      let iconType = "ticket";
+      let iconColor = "#ffffff";
+      if (type.includes("亲")) {
+        iconType = "kiss";
+        iconColor = "#ff4d6f";
+      } else if (type.includes("贴") || type.includes("抱")) {
+        iconType = "hug";
+      } else if (type.includes("礼物")) {
+        iconType = "gift";
+      } else if (type.includes("牵手") || type.includes("散步")) {
+        iconType = "walk";
+      } else if (type.includes("夸")) {
+        iconType = "spark";
+      } else if (type.includes("按")) {
+        iconType = "massage";
+      } else if (type.includes("和好")) {
+        iconType = "heart";
+      }
       const style = palettes[hashType(type) % palettes.length];
-      return { iconType, ...style };
+      return { iconType, iconColor, ...style };
     }
 
     function getTicketIconSvg(iconType) {
       const map = {
-        kiss: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M5 9.6c1.7-1.4 3.8-1.4 5.4.3-1.6 1.8-3.6 2-5.4.3M19 9.6c-1.7-1.4-3.8-1.4-5.4.3 1.6 1.8 3.6 2 5.4.3'/><path d='M7.4 15.8c1.3 1.1 2.9 1.7 4.6 1.7s3.3-.6 4.6-1.7'/></svg>",
-        hug: "<svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='8' cy='8.3' r='2.3'/><circle cx='16' cy='8.3' r='2.3'/><path d='M4.6 18c.2-2.7 2.2-4.4 4.8-4.4h.9l1.7 2.2 1.7-2.2h.9c2.6 0 4.6 1.7 4.8 4.4'/><path d='M7.8 15.2c1.2.9 2.6 1.3 4.2 1.3s3-.4 4.2-1.3'/></svg>",
-        massage: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M9 12.5v-5a1.6 1.6 0 1 1 3.2 0v4.1'/><path d='M12.2 11.6v-5a1.6 1.6 0 1 1 3.2 0v5.2'/><path d='M15.4 12v-4a1.5 1.5 0 1 1 3 0v6.1c0 2.6-1.7 4.9-4.2 5.6l-2.4.7a5 5 0 0 1-6.2-3.4L4.8 14a1.8 1.8 0 1 1 3.4-1.1l.8 2.3'/></svg>",
-        heart: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 20c-3.9-2.5-7-5-7-9.1 0-2.4 1.9-4.3 4.3-4.3 1.3 0 2.5.6 3.2 1.6.7-1 1.9-1.6 3.2-1.6 2.4 0 4.3 1.9 4.3 4.3 0 4.1-3.1 6.6-7 9.1z'/><path d='M12 9.3v4.7M9.7 11.7h4.6'/></svg>",
-        gift: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M4 10.5h16v9.5H4z'/><path d='M2.8 8h18.4v2.5H2.8z'/><path d='M12 8v12'/><path d='M8.8 8s-2.4-.1-2.4-2.2c0-1.3 1-2.3 2.3-2.3 2.1 0 3.3 2.8 3.3 4.5'/><path d='M15.2 8s2.4-.1 2.4-2.2c0-1.3-1-2.3-2.3-2.3-2.1 0-3.3 2.8-3.3 4.5'/></svg>"
+        kiss: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M3.7 10.6c1.4-2 3.5-2.3 5.4-.9 1.2.9 2 2 2.9 3.4-.9.9-2 1.6-3.2 2.1-2.1.8-4 .2-5.1-1.7z'/><path d='M20.3 10.6c-1.4-2-3.5-2.3-5.4-.9-1.2.9-2 2-2.9 3.4.9.9 2 1.6 3.2 2.1 2.1.8 4 .2 5.1-1.7z'/></svg>",
+        hug: "<svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='8' cy='8.2' r='2.1'/><circle cx='16' cy='8.2' r='2.1'/><path d='M4.8 18.2c.2-2.5 2.1-4.1 4.6-4.1h1l1.6 2 1.6-2h1c2.5 0 4.4 1.6 4.6 4.1'/><path d='M8.2 15.4c1.1.8 2.4 1.2 3.8 1.2s2.7-.4 3.8-1.2'/></svg>",
+        massage: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M9 12.4V8.1a1.6 1.6 0 1 1 3.2 0v3.8'/><path d='M12.2 11.4V7.6a1.6 1.6 0 1 1 3.2 0v4.7'/><path d='M15.4 11.7V8.6a1.5 1.5 0 1 1 3 0v5.6c0 2.5-1.6 4.6-4 5.3l-2.3.7a4.9 4.9 0 0 1-6-3.3l-.8-2.7a1.8 1.8 0 1 1 3.4-1.1l.8 2.2'/></svg>",
+        heart: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 20c-3.8-2.4-6.9-4.9-6.9-9 0-2.4 1.9-4.2 4.2-4.2 1.3 0 2.4.6 3.1 1.6.7-1 1.8-1.6 3.1-1.6 2.3 0 4.2 1.8 4.2 4.2 0 4.1-3.1 6.6-6.9 9z'/></svg>",
+        walk: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M8 6.2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z'/><path d='M14.9 12.4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z'/><path d='M9.2 10.4l2.8 2.1M7.2 14.4l2.7 2.1M13.7 16.5l2.7 2.1'/></svg>",
+        spark: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 3.8v3.4M12 16.8v3.4M4.8 12h3.4M15.8 12h3.4M6.8 6.8l2.4 2.4M14.8 14.8l2.4 2.4M17.2 6.8l-2.4 2.4M9.2 14.8l-2.4 2.4'/><circle class='fill' cx='12' cy='12' r='1.6'/></svg>",
+        gift: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M4 10.5h16v9.5H4z'/><path d='M2.8 8h18.4v2.5H2.8z'/><path d='M12 8v12'/><path d='M8.8 8s-2.4-.1-2.4-2.2c0-1.3 1-2.3 2.3-2.3 2.1 0 3.3 2.8 3.3 4.5'/><path d='M15.2 8s2.4-.1 2.4-2.2c0-1.3-1-2.3-2.3-2.3-2.1 0-3.3 2.8-3.3 4.5'/></svg>",
+        ticket: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M4 8.2h16v7.6a1.9 1.9 0 0 0-1.9 1.9H5.9A1.9 1.9 0 0 0 4 15.8z'/><path d='M12 8.2v9.5'/></svg>"
       };
-      return map[iconType] || map.gift;
+      return map[iconType] || map.ticket;
     }
 
     function ensureAudioCtx() {
@@ -1228,6 +1280,29 @@
       const count = kind === "use" ? 26 : 20;
       const shape = kind === "use" ? "star" : "bubble";
       burstAt(x, y, colors, count, shape);
+    }
+
+    function launchPulse(target, kind) {
+      if (!target) return;
+      const rect = target.getBoundingClientRect();
+      const ring = document.createElement("span");
+      ring.className = `pulse-ring ${kind}`;
+      ring.style.left = `${rect.left + rect.width / 2 - 9}px`;
+      ring.style.top = `${rect.top + rect.height / 2 - 9}px`;
+      ring.style.setProperty("--dx", `${(Math.random() - 0.5) * 14}px`);
+      ring.style.setProperty("--dy", `${(Math.random() - 0.5) * 14}px`);
+      fxLayerEl.appendChild(ring);
+      setTimeout(() => ring.remove(), 650);
+    }
+
+    function bindAudioUnlock() {
+      const unlock = () => {
+        if (settings.sound) ensureAudioCtx();
+        window.removeEventListener("touchstart", unlock);
+        window.removeEventListener("click", unlock);
+      };
+      window.addEventListener("touchstart", unlock, { passive: true });
+      window.addEventListener("click", unlock);
     }
 
     function runBatchFlyAnimation(originEl, quantity) {
@@ -1376,6 +1451,16 @@
       return [...items].sort((a, b) => new Date(b.issuedAt) - new Date(a.issuedAt));
     }
 
+    function sortByRarityThenIssued(items) {
+      const rank = { legendary: 4, epic: 3, rare: 2, common: 1 };
+      return [...items].sort((a, b) => {
+        const ar = rank[getRaritySpec(a.type).key] || 0;
+        const br = rank[getRaritySpec(b.type).key] || 0;
+        if (br !== ar) return br - ar;
+        return new Date(b.issuedAt) - new Date(a.issuedAt);
+      });
+    }
+
     function counts() {
       const total = tickets.length;
       const used = tickets.filter((x) => x.status === "USED").length;
@@ -1483,12 +1568,14 @@
       save();
       renderAll();
       launchParticles(triggerEl, "use");
+      launchPulse(triggerEl, "use");
       haptic("use");
       playSound("use");
     }
 
     function renderList() {
-      const current = sortedByIssuedDesc(tickets.filter((x) => x.status === activeTab));
+      const filtered = tickets.filter((x) => x.status === activeTab);
+      const current = activeTab === "NEW" ? sortByRarityThenIssued(filtered) : sortedByIssuedDesc(filtered);
       listEl.innerHTML = "";
 
       if (current.length === 0) {
@@ -1526,6 +1613,7 @@
         stamp.setAttribute("aria-hidden", "true");
         stamp.style.setProperty("--stamp-bg", visual.bg);
         stamp.style.setProperty("--stamp-pattern", visual.pattern);
+        stamp.style.color = visual.iconColor || "#ffffff";
         stamp.innerHTML = getTicketIconSvg(visual.iconType);
 
         const titleText = document.createElement("span");
@@ -1608,6 +1696,7 @@
       setTab("NEW");
       runBatchFlyAnimation(addBtn, quantity);
       launchParticles(addBtn, "add");
+      launchPulse(addBtn, "add");
       haptic("add");
       playSound("add");
       typeInput.value = "";
@@ -1705,6 +1794,7 @@
 
     loadSettings();
     renderSettings();
+    bindAudioUnlock();
     load();
     renderAll();
 
