@@ -1,54 +1,43 @@
-# 小亮的背包（My-ibackpack）
+# 小亮的背包（重构版）
 
-这是一个纯前端单人票券背包项目，支持 PWA、离线使用、iPhone 添加到主屏。
+一个单人使用、数据保存在本机的票券 PWA。
 
-## 项目定位
-- 仅本地使用（无登录、无后端）
-- 票券新增、使用、分类查看、统计
-- 本地存储（`localStorage`）+ 导入导出备份
-- iPhone PWA（主屏图标、离线缓存）
+## 这次重构解决了什么
 
-## 目录说明
-- `index.html`：主页面（开发主文件）
-- `manifest.webmanifest`：PWA 配置
-- `service-worker.js`：离线缓存
-- `icons/`：图标资源（含你自定义封面图）
-- `docs/`：GitHub Pages 发布目录（与根目录保持同步）
-
-## 开发约定（重要）
-从现在开始，所有后续修改都在这个目录下进行：
-- `/Users/liang/Documents/New project/My-ibackpack`
+- 使用手机友好的券类型卡片选择，不再依赖 Safari 表现不稳定的 `datalist`。
+- JavaScript 使用普通脚本顺序加载，直接双击 `index.html` 也能打开新增和导入界面。
+- 重做票券卡片，分割线跟随内容排列，不会穿过券名称。
+- 保留旧版 `my-backpack-v2` 存储键，部署到原地址后会自动读取手机现有数据。
+- 支持原版 JSON 数组备份导入，导入前会显示数量并二次确认。
+- 新增按类型查看剩余数量、搜索、编辑和删除。
+- 使用票券前需要输入 6 位密码，已使用后不可撤销。
+- 票券按等级和类型分组排序，同类型会连续显示。
+- “数据与备份”放在票券列表之后，需要时再使用。
+- 所有票券使用统一的简洁线条图标，和好券为红色爱心。
+- 剩余券种使用自动换行网格，不需要左右滑动。
+- 搜索只在“已使用”列表出现。
+- 支持修改券类型的图标、颜色和等级，并随新版备份一起保存。
+- 首页增加本月新增、本月使用和最近使用记录。
+- HTML、CSS、数据逻辑和界面逻辑分离，不再维护 2000 行单文件。
 
 ## 本地预览
-可用任意静态服务器打开（不要直接双击 HTML）：
+
+在本目录运行：
 
 ```bash
-cd "/Users/liang/Documents/New project/My-ibackpack"
-python3 -m http.server 8080
+python3 -m http.server 5173
 ```
 
-浏览器访问：
-- `http://localhost:8080`
+然后打开 `http://127.0.0.1:5173/`。
 
-## GitHub 上传（建议）
-在 `My-ibackpack` 目录执行：
+## 数据兼容
 
-```bash
-cd "/Users/liang/Documents/New project/My-ibackpack"
-git add .
-git commit -m "update: xiaoliang backpack"
-git branch -M main
-git remote add origin https://github.com/<你的用户名>/<仓库名>.git
-git push -u origin main
-```
+- 本地存储键：`my-backpack-v2`
+- 旧备份格式：JSON 数组
+- 状态：`NEW` / `USED`
 
-然后在仓库 `Settings -> Pages` 设置：
-- Source: `Deploy from a branch`
-- Branch: `main`
-- Folder: `/docs`
+`private-backups/` 不会进入 Git，避免真实票券备注被发布到公开仓库。
 
-## iPhone 使用
-1. Safari 打开 GitHub Pages 链接
-2. 分享 -> 添加到主屏幕
-3. 若图标或样式没更新：删除主屏快捷方式后重新添加
+## GitHub Pages
 
+建议把本目录作为新的仓库根目录发布。若继续使用原仓库，可将这里的文件复制到仓库根目录，并在 GitHub Pages 中选择根目录发布。

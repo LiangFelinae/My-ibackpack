@@ -1,23 +1,25 @@
 {
   "name": "小亮的背包",
   "short_name": "小亮背包",
-  "description": "单人票券背包：新增、使用、撤销、统计、导入导出。",
+  "description": "记录票券的发放、使用与剩余数量",
   "lang": "zh-CN",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#eef7ff",
-  "theme_color": "#7cb8ff",
+  "theme_color": "#eef7ff",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "./assets/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "./assets/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

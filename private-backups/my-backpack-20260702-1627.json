@@ -1,0 +1,426 @@
+[
+  {
+    "id": "9f03bc61-f8f6-4fe7-88f4-193e317c0bdb",
+    "type": "和好券",
+    "note": "",
+    "status": "NEW",
+    "issuedAt": "2026-02-25T12:05:22.043Z",
+    "usedAt": null
+  },
+  {
+    "id": "b7b21b31-40b8-4e6d-92f6-d8f5f0801d62",
+    "type": "贴贴券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:05:47.494Z",
+    "usedAt": "2026-02-25T15:58:08.838Z"
+  },
+  {
+    "id": "3559b5af-3392-429e-ad9a-b997bd0898d9",
+    "type": "贴贴券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:05:47.494Z",
+    "usedAt": "2026-03-01T04:20:53.411Z"
+  },
+  {
+    "id": "9a8765cd-543d-4ebc-ba12-7d143dbb8f82",
+    "type": "贴贴券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:05:47.494Z",
+    "usedAt": "2026-06-09T14:14:56.523Z"
+  },
+  {
+    "id": "0a1efbc2-261d-4cbc-9e7e-708d86a7376b",
+    "type": "贴贴券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:05:47.494Z",
+    "usedAt": "2026-04-02T05:15:33.447Z"
+  },
+  {
+    "id": "efec019c-32d8-4824-a39a-28e68462aa08",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": "2026-03-12T13:41:05.235Z"
+  },
+  {
+    "id": "2b6362c6-4ef8-4d06-a882-07a878f60f14",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": "2026-03-12T13:41:12.243Z"
+  },
+  {
+    "id": "dce2587c-7728-4ab6-b26b-1b1c5c619993",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": "2026-04-03T07:10:19.083Z"
+  },
+  {
+    "id": "51bd6444-242d-45aa-b4da-c05164ed1745",
+    "type": "亲亲券",
+    "note": "",
+    "status": "NEW",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": null
+  },
+  {
+    "id": "f9adf979-10a3-4036-886e-ce1df491cac5",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": "2026-04-03T07:10:26.177Z"
+  },
+  {
+    "id": "ca2ec113-e97a-4c78-9c98-0af122ccbba3",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": "2026-03-12T13:41:17.398Z"
+  },
+  {
+    "id": "5729a9b2-6534-437f-852a-5d7a342acdaf",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": "2026-06-03T23:14:54.759Z"
+  },
+  {
+    "id": "e231c9f9-b6c6-472c-b319-27549dec9857",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": "2026-03-12T13:41:22.508Z"
+  },
+  {
+    "id": "1531d102-d956-4a60-846a-fe42c6d831a2",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": "2026-05-17T06:29:05.501Z"
+  },
+  {
+    "id": "b44fe272-e52b-4661-9728-c90c3e022343",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": "2026-05-06T12:27:06.140Z"
+  },
+  {
+    "id": "84cedac2-34f0-4964-b7b1-9cab2069de85",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": "2026-04-03T07:11:50.766Z"
+  },
+  {
+    "id": "c691a17a-df51-4638-8250-60d2bf6236ab",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": "2026-04-03T07:11:45.768Z"
+  },
+  {
+    "id": "d4966625-d689-4532-83b1-c2a72f132552",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": "2026-04-03T07:11:41.706Z"
+  },
+  {
+    "id": "82bccabe-3a5e-43e3-ae31-d5fb907ab709",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:13.647Z",
+    "usedAt": "2026-04-03T07:11:35.686Z"
+  },
+  {
+    "id": "674ee71a-7741-46f6-a9c5-614050d15393",
+    "type": "按摩券",
+    "note": "也可搓搓使用",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:06:53.188Z",
+    "usedAt": "2026-03-08T12:15:57.358Z"
+  },
+  {
+    "id": "88ac7a65-116b-4eec-8dac-be3a5213b775",
+    "type": "礼物券",
+    "note": "盲盒一个",
+    "status": "NEW",
+    "issuedAt": "2026-02-25T12:07:25.004Z",
+    "usedAt": null
+  },
+  {
+    "id": "473d5bd1-b5da-4b8f-a19c-29464e940c57",
+    "type": "干脆面一包",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-02-25T12:08:11.713Z",
+    "usedAt": "2026-03-08T12:15:24.505Z"
+  },
+  {
+    "id": "67f95f8b-0979-477c-92e6-9d53dc4c5ebd",
+    "type": "礼物券",
+    "note": "黑丝一条",
+    "status": "USED",
+    "issuedAt": "2026-02-26T14:34:00.923Z",
+    "usedAt": "2026-03-23T03:15:09.843Z"
+  },
+  {
+    "id": "5070fddf-780e-4277-8122-bb0371d08cf5",
+    "type": "贴贴券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-03-01T06:26:40.318Z",
+    "usedAt": "2026-03-04T01:42:39.714Z"
+  },
+  {
+    "id": "fdc12f4f-1375-4016-aa76-8653ccf36731",
+    "type": "贴贴券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-03-01T06:26:40.318Z",
+    "usedAt": "2026-06-08T04:48:51.489Z"
+  },
+  {
+    "id": "8cb2a751-451a-478f-ad37-134b132e9f37",
+    "type": "美食劵",
+    "note": "遥遥的特色家宴",
+    "status": "USED",
+    "issuedAt": "2026-03-08T13:21:57.012Z",
+    "usedAt": "2026-03-23T03:15:21.626Z"
+  },
+  {
+    "id": "41db3065-2c71-4fd7-83f1-b1a35182d455",
+    "type": "礼物券",
+    "note": "遥遥特制菜一份",
+    "status": "NEW",
+    "issuedAt": "2026-03-16T05:50:01.217Z",
+    "usedAt": null
+  },
+  {
+    "id": "d84f0f1b-d73d-42bd-a314-2474def2d96a",
+    "type": "按摩券",
+    "note": "可搓搓可按摩一次",
+    "status": "USED",
+    "issuedAt": "2026-03-16T15:09:24.277Z",
+    "usedAt": "2026-04-03T07:10:37.255Z"
+  },
+  {
+    "id": "30749de1-def3-4485-ab37-45aa8a4da446",
+    "type": "礼物券",
+    "note": "大骨头汤",
+    "status": "USED",
+    "issuedAt": "2026-03-23T03:14:48.848Z",
+    "usedAt": "2026-04-02T05:15:25.703Z"
+  },
+  {
+    "id": "d976320b-3579-4868-accb-809f28f8ad87",
+    "type": "礼物券",
+    "note": "遥遥特制菜任选",
+    "status": "NEW",
+    "issuedAt": "2026-03-29T14:59:38.135Z",
+    "usedAt": null
+  },
+  {
+    "id": "40213225-8e7a-4357-9b68-aad89e60ed4f",
+    "type": "礼物券",
+    "note": "钵钵鸡",
+    "status": "USED",
+    "issuedAt": "2026-03-29T15:00:03.223Z",
+    "usedAt": "2026-04-02T05:15:18.378Z"
+  },
+  {
+    "id": "37af57c7-fcbf-45cd-a63e-675f99f42895",
+    "type": "按摩券",
+    "note": "可以搓搓呦😘",
+    "status": "NEW",
+    "issuedAt": "2026-04-03T07:12:30.566Z",
+    "usedAt": null
+  },
+  {
+    "id": "e7c906d7-50cd-4982-ba1a-45ea796aa365",
+    "type": "礼物券",
+    "note": "手绘头像一张",
+    "status": "USED",
+    "issuedAt": "2026-04-03T07:16:42.628Z",
+    "usedAt": "2026-04-12T08:17:54.783Z"
+  },
+  {
+    "id": "15064428-2178-497b-9c42-1e14424c4a9d",
+    "type": "亲亲券",
+    "note": "",
+    "status": "NEW",
+    "issuedAt": "2026-04-07T13:17:02.732Z",
+    "usedAt": null
+  },
+  {
+    "id": "588fa62b-2087-4063-9dde-931f9f96a589",
+    "type": "礼物券",
+    "note": "电影票*2",
+    "status": "USED",
+    "issuedAt": "2026-04-07T13:17:23.913Z",
+    "usedAt": "2026-05-17T06:28:54.938Z"
+  },
+  {
+    "id": "337d0aa5-fb32-47d5-ae68-3a095d49787f",
+    "type": "按摩券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-04-07T13:17:59.494Z",
+    "usedAt": "2026-06-03T23:14:43.059Z"
+  },
+  {
+    "id": "5f2681b4-bd02-4066-8f1f-51e9c2fae7e2",
+    "type": "按摩券",
+    "note": "",
+    "status": "NEW",
+    "issuedAt": "2026-04-07T13:17:59.494Z",
+    "usedAt": null
+  },
+  {
+    "id": "65469699-66d9-411a-935c-ca5b5190c483",
+    "type": "礼物券",
+    "note": "电影票两张",
+    "status": "USED",
+    "issuedAt": "2026-04-12T08:26:52.195Z",
+    "usedAt": "2026-05-24T09:51:24.999Z"
+  },
+  {
+    "id": "45b54ff3-b42f-4f08-922c-1a27c59fc507",
+    "type": "亲亲券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-04-12T08:28:29.715Z",
+    "usedAt": "2026-04-21T12:07:36.814Z"
+  },
+  {
+    "id": "52aa715c-e241-451a-b9f8-8cda4c258d7e",
+    "type": "贴贴券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-04-12T08:28:40.281Z",
+    "usedAt": "2026-06-11T14:19:38.230Z"
+  },
+  {
+    "id": "013b5f95-67e2-4dd1-a7eb-573f4df00931",
+    "type": "礼物券",
+    "note": "买衣服",
+    "status": "USED",
+    "issuedAt": "2026-04-12T08:28:50.853Z",
+    "usedAt": "2026-04-12T15:21:46.475Z"
+  },
+  {
+    "id": "83026cf0-344a-4e15-b937-aa84596977c7",
+    "type": "礼物券",
+    "note": "遥遥特制菜",
+    "status": "NEW",
+    "issuedAt": "2026-04-12T08:30:35.033Z",
+    "usedAt": null
+  },
+  {
+    "id": "974d74bb-51d0-40e3-93e0-6c349ee89b56",
+    "type": "礼物券",
+    "note": "给哥哥买衣服",
+    "status": "USED",
+    "issuedAt": "2026-04-12T08:30:50.229Z",
+    "usedAt": "2026-06-10T05:24:43.897Z"
+  },
+  {
+    "id": "26d3090a-f321-4972-8e84-c8b4b3dd1de4",
+    "type": "礼物券",
+    "note": "飞无人机",
+    "status": "NEW",
+    "issuedAt": "2026-04-19T14:01:30.702Z",
+    "usedAt": null
+  },
+  {
+    "id": "9aebd897-4aa0-4557-b663-a8ca83396b02",
+    "type": "贴贴券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-05-18T15:14:57.610Z",
+    "usedAt": "2026-05-20T04:59:03.620Z"
+  },
+  {
+    "id": "1a6e1eb1-2ef0-4a07-bdec-893245600a9b",
+    "type": "礼物券",
+    "note": "神秘小礼物",
+    "status": "NEW",
+    "issuedAt": "2026-05-24T15:28:25.461Z",
+    "usedAt": null
+  },
+  {
+    "id": "986d986c-9d35-4f3c-a9a2-7c041a65f569",
+    "type": "礼物券",
+    "note": "电影票两张",
+    "status": "NEW",
+    "issuedAt": "2026-06-08T04:49:43.549Z",
+    "usedAt": null
+  },
+  {
+    "id": "67324976-f75e-49a7-8dc9-53853e33e5a8",
+    "type": "礼物券",
+    "note": "神秘小礼物",
+    "status": "NEW",
+    "issuedAt": "2026-06-14T12:34:52.941Z",
+    "usedAt": null
+  },
+  {
+    "id": "50c98624-2d76-4a51-82c9-7fe3f992a34d",
+    "type": "贴贴券",
+    "note": "",
+    "status": "USED",
+    "issuedAt": "2026-06-14T12:35:18.671Z",
+    "usedAt": "2026-06-29T04:45:18.306Z"
+  },
+  {
+    "id": "8ffc44d8-7710-4d83-8fea-d9a55da67070",
+    "type": "按摩券",
+    "note": "",
+    "status": "NEW",
+    "issuedAt": "2026-06-14T12:37:31.163Z",
+    "usedAt": null
+  },
+  {
+    "id": "5d3c307f-713a-4d16-9847-686eb249c941",
+    "type": "贴贴券",
+    "note": "",
+    "status": "NEW",
+    "issuedAt": "2026-06-21T15:51:05.815Z",
+    "usedAt": null
+  },
+  {
+    "id": "e15334c7-dbfb-4af6-a252-b645e68c390a",
+    "type": "贴贴券",
+    "note": "",
+    "status": "NEW",
+    "issuedAt": "2026-06-21T15:51:05.815Z",
+    "usedAt": null
+  },
+  {
+    "id": "836b1850-ddd5-4ff1-a833-cc5c4af6f88d",
+    "type": "按摩券",
+    "note": "",
+    "status": "NEW",
+    "issuedAt": "2026-06-29T04:46:14.131Z",
+    "usedAt": null
+  }
+]
